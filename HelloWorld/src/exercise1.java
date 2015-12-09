@@ -55,13 +55,14 @@ public class exercise1 {
 			}
 			if(baos != null)
 			{
-				try
-				{
+
+				try {
 					baos.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				catch(IOException e)
-				{	
-				}
+
 			}
 		}
 		return buff;
@@ -75,9 +76,9 @@ public class exercise1 {
 		File fobj = null;
 
 		fobj=new File("D:/test.txt");	
-		byte[] buff=null;
+			byte[] buff=null;
 		//if(fobj.isFile()&&fobj.exists())//若文件存在 进行读取操作
-			buff=file2buf(fobj);
+		buff = file2buf(fobj);
 		if(buff!=null)
 		{
 			System.out.println("数组长度为"+buff.length);
