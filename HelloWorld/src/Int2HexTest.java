@@ -18,7 +18,7 @@ public class Int2HexTest {
 
 	@Test
 	public void testInt2Hex() {
-		assertEquals("0", int2HexTest.int2Hex(0));
+		assertEquals("0", int2HexTest.int2Hex(0));//
 		assertEquals("1", int2HexTest.int2Hex(1));
 		assertEquals("-1", int2HexTest.int2Hex(-1));
 		assertEquals("F", int2HexTest.int2Hex(15));
@@ -27,7 +27,7 @@ public class Int2HexTest {
 		assertEquals("-FF", int2HexTest.int2Hex(-255));
 		assertEquals("100", int2HexTest.int2Hex(256));
 		assertEquals("-100", int2HexTest.int2Hex(-256));
-		
+		assertEquals("-100", int2HexTest.int2Hex(-256));
 		//fail("Not yet implemented");
 	}
 

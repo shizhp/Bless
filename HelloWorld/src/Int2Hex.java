@@ -1,4 +1,4 @@
-import java.util.*;
+//import java.util.*;
 public class Int2Hex {
 	private char num2Alpha(int number)//将数字转换为十进制字母返回
 	{
