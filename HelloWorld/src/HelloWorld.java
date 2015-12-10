@@ -1,7 +1,7 @@
-//github push test
-//shizhp
-//15-12-7
-
+/*第一天测试在eclipse中构建类
+ * @shizhp
+ * 20151207
+ */
 
 public class HelloWorld {
 	
