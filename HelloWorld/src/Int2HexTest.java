@@ -1,3 +1,8 @@
+/**将十进制int数值转换为Hex进制字符串的单元测试
+ * @author shizhp
+ * 20151209
+ */
+
 import static org.junit.Assert.*;
 
 import org.junit.After;
@@ -28,6 +33,8 @@ public class Int2HexTest {
 		assertEquals("100", int2HexTest.int2Hex(256));
 		assertEquals("-100", int2HexTest.int2Hex(-256));
 		assertEquals("-100", int2HexTest.int2Hex(-256));
+		assertEquals("7FFFFFFF",int2HexTest.int2Hex(Integer.MAX_VALUE));//2147483647
+		assertEquals("-80000000",int2HexTest.int2Hex(Integer.MIN_VALUE));//-2147483648
 		//fail("Not yet implemented");
 	}
 
