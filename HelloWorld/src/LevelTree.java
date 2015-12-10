@@ -1,11 +1,20 @@
-
+/**根据先序遍历构建一棵二叉树，并输出树的第level层所有的节点
+ * 采用了对象复用的方法
+ * @author shizhp
+ * 20151209
+ */
 public class LevelTree {
 
+	private int index=0;
+	public void setIndex()
+	{
+		index = 0;
+	}
 	private class TreeNode//定义树的节点
 	{
-		char elem;
-		TreeNode left;
-		TreeNode right;
+		private char elem;
+		private TreeNode left;
+		private TreeNode right;
 		/*TreeNode()
 		{
 			elem = 0;
@@ -13,19 +22,28 @@ public class LevelTree {
 			right = null;
 		}*/
 	}
-	public TreeNode CreateTree(String tree, int index)//根据先序遍历构建二叉树
+/*	private class NullTreeExcep extends Exception
+	{
+		NullTreeExcep(String str)
+		{
+		//	super.
+		}
+	}
+*/	
+	public TreeNode createTree(String tree)throws Exception//根据先序遍历构建二叉树
 	{
 		TreeNode root = new TreeNode();
-		if(tree.isEmpty())
+		if(tree==null||tree=="")
 		{  
-			return root;
+			throw new Exception("the tree can't be null");
+			//return root;
 		}
 		if(index < tree.length())
 		{
 			root.elem = tree.charAt(index);
 			if(tree.charAt(++index) != '#')//左子树不为空，构建左子树
 			{
-				root.left = CreateTree(tree, index);
+				root.left = createTree(tree);
 			}
 			else
 			{
@@ -33,7 +51,7 @@ public class LevelTree {
 			}
 			if(tree.charAt(++index) != '#')//右子树不为空，构建右子树
 			{
-				root.right = CreateTree(tree, index);
+				root.right = createTree(tree);
 			}
 			else
 			{
@@ -42,31 +60,55 @@ public class LevelTree {
 		}		
 		return root;		
 	}
-	public String LevelofTree(TreeNode root, int level)//返回第n层的节点数据
+	public String levelofTree(TreeNode root, int level)throws Exception//返回第n层的节点数据
 	{
 		StringBuilder res = new StringBuilder();
-		if(root == null || level <= 0)//树为空或者输入层数有误，返回空
-			return res.toString();
-		if(level == 1)
-			res.append(root.elem);//到达第level层，返回该层的数据
-		if(root.left != null)
+		if(root == null)//树为空或者输入层数有误，返回空
 		{
-			res.append(LevelofTree(root.left,level-1));
+			throw new Exception("tree is empty");
 		}
-		if(root.right != null)
+		if(level <= 0)
 		{
-			res.append(LevelofTree(root.right,level-1));
+			throw new Exception("the level is illegal:" + level);
 		}
+		levelofTree(root, level, res);	
 		return res.toString();
+
+	}
+	
+	public void levelofTree(TreeNode root, int level,StringBuilder res)throws Exception//返回第n层的节点数据
+	{
+		if(level == 1)//到达第level层，返回该层的数据
+		{
+			res.append(root.elem);
+		}
+		else
+		{
+			if(root.left != null)
+			{
+				res.append(levelofTree(root.left,level-1));
+			}
+			if(root.right != null)
+			{
+				res.append(levelofTree(root.right,level-1));
+			}
+		}	
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		LevelTree tree = new LevelTree();
-		TreeNode root = tree.CreateTree("ABG##H##DC##F##",0);
-		String levelElems = tree.LevelofTree(root,3);
-		System.out.println(levelElems);
-		
+		String preLevelTree="ABG##H##DC##F##";
+		TreeNode root;
+		try {
+			//root = tree.CreateTree("ABG##H##DC##F##");
+			root = tree.createTree(preLevelTree);
+			String levelElems = tree.levelofTree(root,0);
+			System.out.println(levelElems);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.toString());
+			e.printStackTrace();
+		}	
 	}
-
 }
