@@ -1,3 +1,7 @@
+/**将int型数字转换为Hex字符串
+ * @author shizhp
+ * 20151209
+ */
 //import java.util.*;
 public class Int2Hex {
 	private char num2Alpha(int number)//将数字转换为十进制字母返回
@@ -27,6 +31,8 @@ public class Int2Hex {
 		boolean isNegtive = (num < 0 ? true : false );
 		if(isNegtive)//判断输入的数字是否为负数，若为则在首部添加-
 		{
+			if(num == Integer.MIN_VALUE)
+				return "-80000000";
 			num = -num;
 		}
 		char toHex;
