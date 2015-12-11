@@ -1,8 +1,10 @@
-/*第一天测试在eclipse中构建类
- * @shizhp
- * 20151207
+/**
+ * @ClassName: HelloWorld
+ * @Discription: TODO(first java pragram)
+ * @author shizhp
+ * @date: 2015年12月11日 下午3:07:59 <br/>
+ *
  */
-
 public class HelloWorld {
 	
 
