@@ -1,37 +1,14 @@
 package test3_LevelTree;
 import static org.junit.Assert.*;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-
-
-
-
-/**
- * @ClassName: LevelTreeTest
- * @Discription: TODO(对返回树的某一层所有的 节点进行单元测试)
+/**对返回树的某一层所有的 节点进行单元测试
  * @author shizhp
- * @date: 2015年12月11日 下午2:11:00 <br/>
- *
+ * @data 2015年12月14日
  */
 public class LevelTreeTest {
-
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	
-
-	/**
-	 * @Title :testLevelofTreeTreeNodeInt
-	 * @Description :TODO(单元测试的主题函数)
-	 * @param :@throws Exception
-	 * @return :void
-	 * @throws
+	/**单元测试主体函数
+	 * @throws Exception
 	 */
 	@Test
 	public void testLevelofTreeTreeNodeInt()throws Exception {

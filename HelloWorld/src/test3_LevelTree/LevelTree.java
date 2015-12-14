@@ -3,47 +3,35 @@ package test3_LevelTree;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-/**
- * @ClassName: LevelTree
- * @Discription: TODO(返回一棵树第n层所有的节点内容)
+/**该{@code LevelTree}类主要实现通过给定一个表示树的先序遍历字符串，
+ * 例如表示树的线序遍历字符串为"ABG##H##DC##F##"该树的形式为A(B(G,H),D(C,F))
+ * 并指定要返回的节点层数，返回该节点所有数据构成的字符串
+ * 要注意层数的合法性判断以及树的构建过程
  * @author shizhp
- * @date: 2015年12月11日 下午12:02:10 <br/>
- *
+ * @data 2015年12月14日
  */
 public class LevelTree {
 
-	/**
-	 * @Fields index :TODO(表示用字符串表示的树信息的下表)
-	 */
+	/** 表示用字符串表示的树信息的下表 */
 	private int index = 0;
-
-	/**
-	 * @Title :setIndex
-	 * @Description :TODO(构建一棵树前，应将index设为0，防止后续对表示树的字符串进行操作是出现异常)
-	 * @para :
-	 * @return :void
-	 * @throws
-	 */
+	/**构建一棵树前，应将index设为0，防止后续对表示树的字符串进行操作是出现异常 */
 	public void setIndex() {
 		index = 0;
 	}
 
-	public class TreeNode {// 定义树的节点
+	/**定义树的节点 */
+	public class TreeNode {
 		private char elem;
 		private TreeNode left;
 		private TreeNode right;
 	}
-
-	/**
-	 * @Title :createTree
-	 * @Description :TODO(使用先序遍历的字符串来构建树，字符串ABG##H##DC##F##表示树A(B(G,H),D(C,F))
-	 * @para :@param tree
-	 * @para :@return
-	 * @para :@throws Exception
-	 * @return :TreeNode
-	 * @throws
+	/**给定一棵树的先序遍历字符串形式，构建这棵树并返回根节点
+	 * 注意对异常的判断以及树的构建方法，采用递归方法分别构建左子树和右子树
+	 * @param tree
+	 * @return
+	 * @throws Exception
 	 */
-	public TreeNode createTree(String tree) throws Exception {// 根据先序遍历构建二叉树
+	public TreeNode createTree(String tree) throws Exception {
 		TreeNode root = new TreeNode();
 		if (tree == null || tree == "") {//表示树的字符串为空，抛出异常
 			throw new Exception("the tree can't be null");
@@ -63,13 +51,10 @@ public class LevelTree {
 		}
 		return root;
 	}	
-	/**
-	 * @Title :getTreeLevel
-	 * @Description :TODO(给定树的根，返回一棵树的层数)
-	 * @para :@param root
-	 * @para :@return
-	 * @return :int
-	 * @throws
+
+	/**给定树的根节点，返回树的层数
+	 * @param root
+	 * @return
 	 */
 	public int getTreeLevel(TreeNode root)
 	{
@@ -89,23 +74,20 @@ public class LevelTree {
 		totalLevel = leftTotalLevel > rightTotalLevel ? leftTotalLevel : rightTotalLevel;
 		return totalLevel+1;
 	}
-	/**
-	 * @Title :levelofTree
-	 * @Description :TODO(给定一棵树的根，返回第level层树的所有节点组成的链表)
-	 * @para :@param root
-	 * @para :@param level
-	 * @para :@return
-	 * @para :@throws Exception
-	 * @return :String
-	 * @throws
+	/**将树的第n层的所有节点放入链表中返回
+	 * 注意异常的处理以及代码的复用，LinkedList与List的区别
+	 * @param root
+	 * @param level
+	 * @return
+	 * @throws Exception
 	 */
 	public LinkedList<TreeNode> levelofTree(TreeNode root, int level) throws Exception// 返回第n层的节点数据
 	{		
-		if (root == null) {// 判断树是否为空
+		if (root == null) {
 			throw new Exception("tree is empty");
 		}
 		int totalLevel = getTreeLevel(root);
-		if (level <= 0 || level > totalLevel) {//判断输入的层数是否合法
+		if (level <= 0 || level > totalLevel) {
 			throw new Exception("the level is illegal:" + level + " the total level of the tree is:" + totalLevel);
 		}
 		LinkedList<TreeNode> linkList = new LinkedList<>();
@@ -114,15 +96,11 @@ public class LevelTree {
 
 	}
 
-	/**
-	 * @Title :levelofTree1
-	 * @Description :TODO(实现返回第level层树的所有节点链表的功能)
-	 * @para :@param root
-	 * @para :@param level
-	 * @para :@param res
-	 * @para :@throws Exception
-	 * @return :void
-	 * @throws
+	/**实现将树的第n层的所有节点放入链表中返回
+	 * @param root
+	 * @param level
+	 * @param linkList
+	 * @throws Exception
 	 */
 	public void levelofTree1(TreeNode root, int level, LinkedList<TreeNode> linkList)throws Exception// 返回第n层的节点数据
 	{
@@ -137,13 +115,11 @@ public class LevelTree {
 			}
 		}
 	}
-	/**
-	 * @Title :list2Str
-	 * @Description :TODO(将链表中的所有树的节点的值取出放入字符串中返回)
-	 * @para :@param linkList
-	 * @para :@return
-	 * @return :String
-	 * @throws
+
+	/**将链表中节点信息取出，返回字符串信息
+	 * 注意迭代器的用法
+	 * @param linkList
+	 * @return
 	 */
 	public String list2Str(LinkedList<TreeNode> linkList)
 	{
@@ -157,15 +133,11 @@ public class LevelTree {
 		}
 		return levelTreeStr.toString();
 	}
-	/**
-	 * @Title :getTreeLevelStr
-	 * @Description :TODO(封装所有代码，输入表示树的先序遍历的字符串，返回第level层的所有节点值构成的字符串)
-	 * @para :@param preLevelTreeStr
-	 * @para :@param level
-	 * @para :@return
-	 * @para :@throws Exception
-	 * @return :String
-	 * @throws
+	/**将树的第n层节点放入链表中输出
+	 * @param preLevelTreeStr
+	 * @param level
+	 * @return
+	 * @throws Exception
 	 */
 	public String getTreeLevelStr(String preLevelTreeStr,int level) throws Exception{
 		setIndex();

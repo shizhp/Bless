@@ -1,63 +1,100 @@
 package test1_File2Buff;
+
 import java.io.ByteArrayOutputStream;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.File;
 
 /**
- * @ClassName: File2Buf
- * @Discription: TODO(turn a file into a byte array)
+ * 该{@code File2Buf}类主要实现将文本中的内容读取出来放入byte[]数组中输出，主要注意的地方
+ * 是文件读取异常的处理，以及读取缓冲区的设置以及流的关闭
+ * 
  * @author shizhp
- * @date: 2015年12月11日 上午11:30:10 <br/>
- *
+ * @data 2015年12月14日
  */
 public class File2Buf {
+
 	/**
-	 * @Title :file2Buf
-	 * @Description :TODO(the method implement file2Buf)
-	 * @para :@param path
-	 * @para :@return
-	 * @para :@throws Exception
-	 * @return :byte[]
-	 * @throws
+	 * @param path
+	 * @return 表示文件内容Ascii码的字节数组
+	 * @throws IOException
 	 */
 	public byte[] file2Buf(String path) throws IOException {
 		File fobj = new File(path);
-		if (!fobj.isFile() || !fobj.exists()) {//若文件不存在或者该路径不是文件则抛出异常
+		if (!fobj.isFile() || !fobj.exists()) {
 			throw new IOException("file is not exist");
 		}
-		InputStream fis = new FileInputStream(fobj);// 定义文件读取输入流
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(4096);// 定义文件输出流
-		byte[] tmpBuff = new byte[4096];// 缓冲字节数组
-		int tmpbyte = 0;// 获取文件读取状态信息
-		while ((tmpbyte = fis.read(tmpBuff)) != -1) {
-			baos.write(tmpBuff, 0, tmpbyte);
-		}
-		byte[] buff = baos.toByteArray();// 返回字节数组
-
-		if (fis != null) {
-			try {
-				fis.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+		BufferedInputStream fis = null;
+		ByteArrayOutputStream baos = null;
+		byte[] buff = null;
+		try {
+			fis = new BufferedInputStream(new FileInputStream(fobj));
+			baos = new ByteArrayOutputStream(4096);
+			byte[] tmpBuff = new byte[4096];
+			int tmpbyte = 0;
+			while ((tmpbyte = fis.read(tmpBuff)) != -1) {
+				baos.write(tmpBuff, 0, tmpbyte);
 			}
-		}
-		if (baos != null) {
-			try {
-				baos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+			buff = baos.toByteArray();
+		} finally {
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (baos != null) {
+				try {
+					baos.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return buff;
 	}
 
+	/**一种更有效的方法，减少了对象的构建，直接读取到返回的数组中再输出
+	 * @param path
+	 * @return
+	 * @throws IOException
+	 */
+	public byte[] file2Buf2(String path) throws IOException {
+		File fobj = new File(path);
+		if (!fobj.isFile() || !fobj.exists()) {
+			throw new IOException("file is not exist");
+		}
+		InputStream fis = null;
+		int count = 0;
+		byte[] buff = new byte[(int) fobj.length()];
+		try {
+			fis = new FileInputStream(fobj);
+			int readedCount = 0;
+			//(int)(fobj.length() > 4096? 4096 : fobj.length() )
+			while ((readedCount = fis.read(buff)) != -1) {
+				count += readedCount;
+			}
+			return buff;
+		} finally {
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	public static void main(String[] args) throws IOException {
 		File2Buf file2Buffer = new File2Buf();
 		byte[] buff = null;
-		String path = new String("C:/Users/John/git/HelloWorld/src/test1_File2Buff/test1");
-		buff = file2Buffer.file2Buf(path);
+		String path = new String(
+				"C:/Users/John/git/HelloWorld/src/test1_File2Buff/test1.txt");
+		buff = file2Buffer.file2Buf2(path);
 		if (buff != null) {
 			System.out.println("数组长度为" + buff.length);
 			for (int i = 0; buff != null && i < buff.length; i++) {
